@@ -1,0 +1,1006 @@
+--loadstring is loadstring(game:HttpGet("https://pastebin.com/raw/FWQLbn7w"))()
+
+
+local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
+
+local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
+local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
+local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+
+local Window = Library:CreateWindow({
+    -- Set Center to true if you want the menu to appear in the center
+    -- Set AutoShow to true if you want the menu to appear when it is created
+    -- Position and Size are also valid options here
+    -- but you do not need to define them unless you are changing them :)
+
+    Title = 'pressure cheat',
+    Center = true,
+    AutoShow = true,
+    TabPadding = 8,
+    MenuFadeTime = 0.2
+})
+
+-- CALLBACK NOTE:
+-- Passing in callback functions via the initial element parameters (i.e. Callback = function(Value)...) works
+-- HOWEVER, using Toggles/Options.INDEX:OnChanged(function(Value) ... ) is the RECOMMENDED way to do this.
+-- I strongly recommend decoupling UI code from logic code. i.e. Create your UI elements FIRST, and THEN setup :OnChanged functions later.
+
+-- You do not have to set your tabs & groups up this way, just a prefrence.
+    local Tabs = {
+        -- Creates a new tab titled Main
+        Main = Window:AddTab('Main'), 
+        ['Item Give'] = Window:AddTab('Item Give'),
+        ['Boost FPS'] = Window:AddTab('Boost FPS'),
+        ['UI Settings'] = Window:AddTab('UI Settings'),
+    }
+-- player change
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox('Player Change')
+
+
+local player = game.Players.LocalPlayer
+local character = player.Character
+local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+
+-- Flag to indicate if the walk speed was changed by the slider
+local sliderAdjusted = false
+
+-- Function to update the walk speed based on the slider value
+local function updateWalkSpeed(value)
+    if humanoid then
+        humanoid.WalkSpeed = value
+    end
+    print('Walk Speed changed to:', value)
+end
+
+-- Add the slider to the UI
+LeftGroupBox:AddSlider('WalkSpeedSlider', {
+    Text = 'Walk Speed',
+    Default = 16, -- Set to a default value, e.g., the default Roblox walk speed
+    Min = 1,      -- Minimum value
+    Max = 200,    -- Maximum value
+    Rounding = 0, -- No decimal places
+    Compact = false,
+    HideMax = false,
+    
+    Callback = function(value)
+        sliderAdjusted = true
+        updateWalkSpeed(value)
+    end
+})
+
+-- Optional: Set an initial value if needed
+Options.WalkSpeedSlider:SetValue(16)
+
+-- Function to handle walk speed changes not made by the slider
+local function onWalkSpeedChanged()
+    if not sliderAdjusted then
+        -- Optional: Code to revert the walk speed or handle unauthorized changes
+        -- Example: reset walk speed to slider value
+        local currentSliderValue = Options.WalkSpeedSlider.Value
+        if humanoid and humanoid.WalkSpeed ~= currentSliderValue then
+            humanoid.WalkSpeed = currentSliderValue
+        end
+    end
+    sliderAdjusted = false
+end
+
+-- Listen for changes to the walk speed and check if they were made by the slider
+humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(onWalkSpeedChanged)
+
+--noclip
+local MyButton = LeftGroupBox:AddButton({
+    Text = 'Noclip',
+    Func = function()
+        local RunService = game:GetService("RunService")
+local Player = game.Players.LocalPlayer
+
+local Clip = false
+local Noclipping = nil
+
+local function NoclipLoop()
+    if Player.Character then
+        for _, child in pairs(Player.Character:GetDescendants()) do
+            if child:IsA("BasePart") and child.CanCollide then
+                child.CanCollide = false
+            end
+        end
+    end
+end
+
+Noclipping = RunService.Stepped:Connect(NoclipLoop)
+    end,
+    DoubleClick = false,
+    Tooltip = 'This is the main button'
+})
+
+
+
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox('ESP')
+
+
+
+-- ESP
+local MyButton = LeftGroupBox:AddButton({
+    Text = 'Angler ESP',
+    Func = function()
+        -- loadstring
+local ESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+ 
+-- config
+ESP.Players = false
+ESP.Boxes = true
+ESP.Names = true
+ESP:Toggle(true)
+ 
+-- object
+ESP:AddObjectListener(Workspace, { 
+    Name = "Angler", --Object name inside of the path, for example: Workspace.ThisFolder.Item_1
+    CustomName = "Angler", -- Name you want to be displayed
+    Color = Color3.fromRGB(255, 0, 0), -- Color
+    IsEnabled = "whatever" -- Any name, has to be the same as the last line: ESP.TheNameYouWant
+})
+ESP.whatever = true
+    end,
+    DoubleClick = false,
+    Tooltip = 'esp angler'
+})
+
+local MyButton = LeftGroupBox:AddButton({
+    Text = 'Froger ESP',
+    Func = function()
+        -- loadstring
+local ESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+ 
+-- config
+ESP.Players = false
+ESP.Boxes = true
+ESP.Names = true
+ESP:Toggle(true)
+ 
+-- object
+ESP:AddObjectListener(Workspace, { 
+    Name = "Froger", --Object name inside of the path, for example: Workspace.ThisFolder.Item_1
+    CustomName = "Froger", -- Name you want to be displayed
+    Color = Color3.fromRGB(88, 57, 39), -- Color
+    IsEnabled = "whatever" -- Any name, has to be the same as the last line: ESP.TheNameYouWant
+})
+ESP.whatever = true
+    end,
+    DoubleClick = false,
+    Tooltip = 'esp frogger'
+})
+--blitz
+local MyButton = LeftGroupBox:AddButton({
+    Text = 'blitz ESP',
+    Func = function()
+        -- loadstring
+local ESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+ 
+-- config
+ESP.Players = false
+ESP.Boxes = true
+ESP.Names = true
+ESP:Toggle(true)
+ 
+-- object
+ESP:AddObjectListener(Workspace, { 
+    Name = "Blitz", --Object name inside of the path, for example: Workspace.ThisFolder.Item_1
+    CustomName = "Blitz", -- Name you want to be displayed
+    Color = Color3.fromRGB(58, 58, 58), -- Color
+    IsEnabled = "whatever" -- Any name, has to be the same as the last line: ESP.TheNameYouWant
+})
+ESP.whatever = true
+    end,
+    DoubleClick = false,
+    Tooltip = 'blitz esp'
+})
+-- chainsmoker
+local MyButton = LeftGroupBox:AddButton({
+    Text = 'Chainsmoker ESP',
+    Func = function()
+        -- loadstring
+local ESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+ 
+-- config
+ESP.Players = false
+ESP.Boxes = true
+ESP.Names = true
+ESP:Toggle(true)
+ 
+-- object
+ESP:AddObjectListener(Workspace, { 
+    Name = "Chainsmoker", --Object name inside of the path, for example: Workspace.ThisFolder.Item_1
+    CustomName = "Chainsmoker", -- Name you want to be displayed
+    Color = Color3.fromRGB(57, 255, 20), -- Color
+    IsEnabled = "whatever" -- Any name, has to be the same as the last line: ESP.TheNameYouWant
+})
+ESP.whatever = true
+    end,
+    DoubleClick = false,
+    Tooltip = 'chainsmoker esp'
+})
+--pinkie esp
+local MyButton = LeftGroupBox:AddButton({
+    Text = 'Pinkie ESP',
+    Func = function()
+        -- loadstring
+local ESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+ 
+-- config
+ESP.Players = false
+ESP.Boxes = true
+ESP.Names = true
+ESP:Toggle(true)
+ 
+-- object
+ESP:AddObjectListener(Workspace, { 
+    Name = "Pinkie", --Object name inside of the path, for example: Workspace.ThisFolder.Item_1
+    CustomName = "Pinkie", -- Name you want to be displayed
+    Color = Color3.fromRGB(174, 55, 255), -- Color
+    IsEnabled = "whatever" -- Any name, has to be the same as the last line: ESP.TheNameYouWant
+})
+ESP.whatever = true
+    end,
+    DoubleClick = false,
+    Tooltip = 'Pinkie esp'
+})
+
+
+local MyButton = LeftGroupBox:AddButton({
+    Text = 'GREEN SHARK ESP',
+    Func = function()
+        print('DONT WORK lul')
+    end,
+    DoubleClick = false,
+    Tooltip = 'idk why you would want that never enable this again stupid'
+})
+
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local workspace = game:GetService("Workspace")
+
+local espParts = {}
+local partEspTrigger = nil
+local espTransparency = 0.5
+local ESPenabled = false
+local CHMSenabled = false
+
+local partColors = {}
+local espSizeMultipliers = {}
+local distanceThreshold = 100 -- Distance threshold for ESP visibility
+
+-- Function to check if a value is in a table
+function FindInTable(tbl, value)
+    for _, v in ipairs(tbl) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end
+
+-- Function to get index of a value in a table
+function GetInTable(tbl, value)
+    for index, v in ipairs(tbl) do
+        if v == value then
+            return index
+        end
+    end
+    return nil
+end
+
+-- Function that handles adding ESP to parts with different colors and size
+function partAdded(part)
+    if #espParts > 0 then
+        local partNameLower = part.Name:lower()
+        if FindInTable(espParts, partNameLower) then
+            local colorName = partColors[partNameLower] or "Bright blue"
+            local sizeMultipliers = espSizeMultipliers[partNameLower] or {1.5, 1.5, 1.5}
+
+            -- Remove any existing ESP
+            local existingEsp = part:FindFirstChild(partNameLower.."_PESP")
+            if existingEsp then
+                existingEsp:Destroy()
+            end
+
+            local a = Instance.new("BoxHandleAdornment")
+            a.Name = partNameLower.."_PESP"
+            a.Parent = part
+            a.Adornee = part
+            a.AlwaysOnTop = true
+            a.ZIndex = 0
+            
+            a.Size = Vector3.new(part.Size.X * sizeMultipliers[1], 
+                                 part.Size.Y * sizeMultipliers[2], 
+                                 part.Size.Z * sizeMultipliers[3])
+            
+            a.Transparency = espTransparency
+            a.Color = BrickColor.new(colorName)
+            
+            -- Update ESP visibility based on distance
+            RunService.RenderStepped:Connect(function()
+                local playerPosition = Players.LocalPlayer.Character and Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position
+                if playerPosition then
+                    local distance = (part.Position - playerPosition).magnitude
+                    if distance > distanceThreshold then
+                        a.Visible = false
+                    else
+                        a.Visible = true
+                    end
+                end
+            end)
+        end
+    else
+        if partEspTrigger then
+            partEspTrigger:Disconnect()
+            partEspTrigger = nil
+        end
+    end
+end
+
+-- Function to handle adding ESP with custom size multipliers and color
+function addPartESP(partName, colorName, sizeMultipliers)
+    local partEspName = partName:lower()
+    if not FindInTable(espParts, partEspName) then
+        table.insert(espParts, partEspName)
+        partColors[partEspName] = colorName
+        espSizeMultipliers[partEspName] = sizeMultipliers
+
+        for _, v in pairs(workspace:GetDescendants()) do
+            if v:IsA("BasePart") and v.Name:lower() == partEspName then
+                partAdded(v)
+            end
+        end
+    end
+    if partEspTrigger == nil then
+        partEspTrigger = workspace.DescendantAdded:Connect(partAdded)
+    end
+end
+
+-- Function to handle removing ESP via command
+function removePartESP(partName)
+    local partEspName = partName:lower()
+    if FindInTable(espParts, partEspName) then
+        table.remove(espParts, GetInTable(espParts, partEspName))
+    end
+    partColors[partEspName] = nil
+    espSizeMultipliers[partEspName] = nil
+
+    for _, v in pairs(workspace:GetDescendants()) do
+        if v:IsA("BoxHandleAdornment") and v.Name == partEspName..'_PESP' then
+            v:Destroy()
+        end
+    end
+end
+
+-- Define the button functionality for Numberpart with specific size multipliers
+local espSizeMultipliersNumberpart = {2.0, 2.0, 20}
+local MyButtonNumberpart = LeftGroupBox:AddButton({
+    Text = 'Keycard ESP',
+    Func = function()
+        print('Button clicked! Adding ESP for Numberpart...')
+        addPartESP("Numberpart", "Bright blue", espSizeMultipliersNumberpart)
+    end,
+    DoubleClick = false,
+    Tooltip = 'Click to add ESP to parts named Numberpart (blue) with customizable size'
+})
+
+-- Define the button functionality for ProxyPart with specific size multipliers
+local espSizeMultipliersProxyPart = {1.0, 1.0, 1.0}
+local MyButtonProxyPart = LeftGroupBox:AddButton({
+    Text = 'Money ESP',
+    Func = function()
+        print('Button clicked! Adding ESP for ProxyPart...')
+        addPartESP("ProxyPart", "Bright yellow", espSizeMultipliersProxyPart)
+    end,
+    DoubleClick = false,
+    Tooltip = 'Click to add ESP to parts named ProxyPart (yellow) with customizable size'
+})
+
+
+-- Example function stubs (replace these with actual implementations)
+function CHMS(player)
+    -- Your implementation for Chams
+end
+
+function notify(title, message)
+    -- Your implementation for notifications
+end
+
+--door esp
+
+local MyButton = LeftGroupBox:AddButton({
+    Text = 'Door ESp',
+    Func = function()
+        local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local workspace = game:GetService("Workspace")
+
+-- Define ESP transparency
+local espTransparency = 0.5
+-- Define the distance within which to find doors
+local detectionRadius = 150
+
+-- Get the local player and their character
+local player = Players.LocalPlayer
+local function getPlayerCharacter()
+    return player.Character or player.CharacterAdded:Wait()
+end
+
+-- Function to create ESP for the Root part
+local function applyESPToRoot(part)
+    -- Ensure there is no existing ESP
+    local existingEsp = part:FindFirstChild(part.Name:lower().."_PESP")
+    if existingEsp then
+        return
+    end
+
+    -- Create a BoxHandleAdornment
+    local esp = Instance.new("BoxHandleAdornment")
+    esp.Name = part.Name:lower().."_PESP"
+    esp.Parent = part
+    esp.Adornee = part
+    esp.AlwaysOnTop = true
+    esp.ZIndex = 0
+
+    -- Scale the ESP size
+    esp.Size = Vector3.new(
+        part.Size.X,           -- X-axis remains the same
+        part.Size.Y * 2,       -- Y-axis doubled
+        part.Size.Z * 1.5      -- Z-axis scaled by 1.5
+    )
+
+    esp.Transparency = espTransparency
+    esp.Color = BrickColor.new("Lime green")
+end
+
+-- Function to remove ESP from the Root part
+local function removeESPFromRoot(part)
+    local esp = part:FindFirstChild(part.Name:lower().."_PESP")
+    if esp then
+        esp:Destroy()
+    end
+end
+
+-- Function to update the ESP for all parts in a model
+local function updateESPForModel(model)
+    -- Find the ObjectValue named "Enter"
+    local enterValue = model:FindFirstChild("Enter")
+    
+    -- Proceed only if "Enter" ObjectValue is found
+    if enterValue and enterValue:IsA("ObjectValue") then
+        -- Check if the model has already been marked for destruction
+        if model:FindFirstChild("PendingDestruction") then
+            return
+        end
+
+        -- Loop through all parts in the model
+        for _, part in ipairs(model:GetDescendants()) do
+            if part:IsA("BasePart") and part.Name == "Root" then
+                -- Find the BoolValue named "OpenValue"
+                local openValue = model:FindFirstChild("OpenValue")
+                if openValue and openValue:IsA("BoolValue") then
+                    if not openValue.Value then
+                        -- Door is closed, apply ESP
+                        applyESPToRoot(part)
+                    else
+                        -- Door is open, remove ESP, mark for destruction, and delete the model after 1.5 seconds
+                        removeESPFromRoot(part)
+                        local pendingDestruction = Instance.new("BoolValue")
+                        pendingDestruction.Name = "PendingDestruction"
+                        pendingDestruction.Parent = model
+                        print("OpenValue is true, waiting to destroy model:", model.Name)
+                        delay(1.5, function()
+                            if model then
+                                print("Destroying model:", model.Name)
+                                model:Destroy()
+                            end
+                        end)
+                    end
+                end
+            end
+        end
+    end
+end
+
+-- Function to find and update ESP for "NormalDoor" models within the detection radius
+local function findAndUpdateESP()
+    local character = getPlayerCharacter()
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+
+    -- Check if the player character's HumanoidRootPart is available
+    if not humanoidRootPart then
+        return
+    end
+
+    -- Search through all descendants of Workspace
+    for _, item in ipairs(workspace:GetDescendants()) do
+        if item:IsA("Model") and item.Name == "NormalDoor" then
+            local doorPosition = item:GetModelCFrame().p
+            local distance = (doorPosition - humanoidRootPart.Position).magnitude
+
+            if distance < detectionRadius then
+                updateESPForModel(item)
+            end
+        end
+    end
+end
+
+-- Main loop to continuously check and apply ESP
+RunService.RenderStepped:Connect(function()
+    findAndUpdateESP()
+end)
+
+
+
+    
+
+
+    end,
+    DoubleClick = false,
+    Tooltip = 'Activate the door esp'
+})
+
+
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox('Cool Settings')
+
+--autocollect
+local MyButton = LeftGroupBox:AddButton({
+    Text = 'AutoCollect TO MUCH LAG',
+    Func = function()
+        local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+
+-- Function to fire ProximityPrompt
+local function fireProximityPrompt(prompt)
+    if prompt.Enabled then
+        prompt:InputHoldBegin()
+        wait(prompt.HoldDuration) -- Wait for the duration the prompt requires
+        prompt:InputHoldEnd()
+    end
+end
+
+-- Function to handle ProximityPrompts
+local function handleProximityPrompt(prompt, playerPosition)
+    if prompt:IsA("ProximityPrompt") then
+        -- Set MaxActivationDistance to 13 and RequiresLineOfSight to false
+        prompt.MaxActivationDistance = 13
+        prompt.RequiresLineOfSight = false
+
+        local parent = prompt.Parent
+
+        if parent and parent:IsA("BasePart") then
+            -- Check the distance between the prompt and the player
+            local promptPosition = parent.Position
+            if (promptPosition - playerPosition).Magnitude <= 8 then
+                -- Condition 1: Parent is named "ProxyPart"
+                if parent.Name == "ProxyPart" then
+                    fireProximityPrompt(prompt)
+                    return -- Skip further processing for this prompt
+                end
+
+                -- Condition 2: Parent is named "HighLight" and its parent is named "Drawer"
+                local grandparent = parent.Parent
+                if parent.Name == "HighLight" and grandparent and grandparent.Name == "Drawer" then
+                    local openValue = grandparent:FindFirstChild("OpenValue")
+                    if openValue then
+                        -- Disable the ProximityPrompt regardless of OpenValue
+                        prompt.Enabled = false
+                        fireProximityPrompt(prompt)
+                    end
+                end
+            end
+        end
+    end
+end
+
+-- Function to iterate through relevant parts and update properties
+local function updateAndFireProximityPrompts(playerPosition)
+    for _, prompt in ipairs(workspace:GetDescendants()) do
+        if prompt:IsA("ProximityPrompt") then
+            handleProximityPrompt(prompt, playerPosition)
+        end
+    end
+end
+
+-- Cache the player
+local player = Players.LocalPlayer
+local character = player and player.Character
+local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPart")
+
+-- Connect the DescendantAdded event to handle new ProximityPrompts
+workspace.DescendantAdded:Connect(function(descendant)
+    if humanoidRootPart then
+        local playerPosition = humanoidRootPart.Position
+        handleProximityPrompt(descendant, playerPosition)
+    end
+end)
+
+-- Run the function every 0 second to reduce lag (nuh uh)
+RunService.Heartbeat:Connect(function()
+    if humanoidRootPart then
+        local playerPosition = humanoidRootPart.Position
+        updateAndFireProximityPrompts(playerPosition)
+    end
+end)
+
+
+-- reactive keycard
+-- Function to enable ProximityPrompt if its parent is named "ProxyPart"
+local function enableProximityPrompts()
+    for _, descendant in ipairs(workspace:GetDescendants()) do
+        if descendant:IsA("ProximityPrompt") and descendant.Parent and descendant.Parent.Name == "ProxyPart" then
+            descendant.Enabled = true
+        end
+    end
+end
+
+-- Run the function every 0.5 seconds
+RunService.Heartbeat:Connect(function()
+    enableProximityPrompts()
+    wait(0.5)
+end)
+
+
+
+    end,
+    DoubleClick = false,
+    Tooltip = 'if you put that use boost fps'
+})
+
+-- instant interact
+local MyButton = LeftGroupBox:AddButton({
+    Text = 'Instant Interact',
+    Func = function()
+        local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local workspace = game:GetService("Workspace")
+
+-- Define distance and interval
+local detectionRadius = 50
+local checkInterval = 0.5
+
+-- Get the local player and their character
+local player = Players.LocalPlayer
+
+-- Function to update HoldDuration for ProximityPrompt if Lock exists
+local function updateHoldDurationForLock(doorModel)
+    local lock = doorModel:FindFirstChild("Lock")
+    if lock then
+        -- Find the Root part in the NormalDoor model
+        local rootPart = doorModel:FindFirstChild("Root")
+        if rootPart and rootPart:IsA("BasePart") then
+            -- Find the ProximityPrompt in the Root part
+            local proximityPrompt = rootPart:FindFirstChildOfClass("ProximityPrompt")
+            if proximityPrompt and proximityPrompt:IsA("ProximityPrompt") then
+                -- Update HoldDuration to 0
+                proximityPrompt.HoldDuration = 0
+                print("Updated HoldDuration to 0 for ProximityPrompt in door:", doorModel.Name)
+            end
+        end
+    end
+end
+
+-- Function to check distance and update NormalDoor models
+local function checkNormalDoors()
+    local character = player.Character
+    if not character then return end
+    
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    if not humanoidRootPart then return end
+
+    local playerPosition = humanoidRootPart.Position
+
+    -- Iterate through all NormalDoor models within detectionRadius
+    for _, item in ipairs(workspace:GetDescendants()) do
+        if item:IsA("Model") and item.Name == "NormalDoor" then
+            local doorPosition = item:GetModelCFrame().p
+            local distance = (doorPosition - playerPosition).magnitude
+
+            if distance <= detectionRadius then
+                updateHoldDurationForLock(item)
+            end
+        end
+    end
+end
+
+-- Set up a loop to check for doors every 3 seconds
+while true do
+    checkNormalDoors()
+    task.wait(checkInterval)  -- Waits 3 seconds before the next check
+end
+
+
+
+        
+        
+        
+
+
+
+    end,
+    DoubleClick = false,
+    Tooltip = 'This is the main button'
+})
+
+-- god mode
+local MyButton = LeftGroupBox:AddButton({
+    Text = 'NO WORK',
+    Func = function()
+        -- LocalScript for use in a player's character
+local player = game.Players.LocalPlayer
+local character = player.Character
+local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPart")
+
+-- Variables to track state
+local savedPosition = nil
+local isTeleporting = false
+
+-- Function to check the distance between the player and the "Angler" part
+local function checkDistance()
+    local angler = workspace:FindFirstChild("Angler")
+    if angler then
+        local distance = (angler.Position - humanoidRootPart.Position).magnitude
+        return distance < 50
+    end
+    return false
+end
+
+-- Function to teleport the player and freeze them in the air
+local function teleportAndFreeze()
+    if humanoidRootPart then
+        savedPosition = humanoidRootPart.Position
+        -- Teleport player 100 studs in the air
+        humanoidRootPart.Position = savedPosition + Vector3.new(0, 100, 0)
+        -- Freeze player by setting WalkSpeed and JumpPower to 0
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.WalkSpeed = 0
+            humanoid.JumpPower = 0
+        end
+        isTeleporting = true
+    end
+end
+
+-- Function to return the player to the saved position and unfreeze them
+local function returnToSavedPosition()
+    if humanoidRootPart and savedPosition then
+        humanoidRootPart.Position = savedPosition
+        -- Unfreeze player
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.WalkSpeed = 16 -- Default walk speed
+            humanoid.JumpPower = 50 -- Default jump power
+        end
+        savedPosition = nil
+        isTeleporting = false
+    end
+end
+
+-- Check the distance and perform actions
+while true do
+    if not isTeleporting and checkDistance() then
+        teleportAndFreeze()
+    elseif isTeleporting and not checkDistance() then
+        returnToSavedPosition()
+    end
+    wait(0.5) -- Check every 0.5 seconds
+end
+
+    end,
+    DoubleClick = true,
+    Tooltip = 'This is the main button'
+})
+
+
+
+--right groubox
+
+local RightGroupbox = Tabs.Main:AddRightGroupbox('Bypass');
+
+--bypass squid damage
+
+
+RightGroupbox:AddToggle('MyToggle', {
+    Text = 'squid damage',
+    Default = false, -- Default value (true / false)
+    Tooltip = 'you cant undo this but toggle look better than button', -- Information shown when you hover over the toggle
+
+    Callback = function(Value)
+        local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local event = ReplicatedStorage:FindFirstChild("Events")
+
+if event and event:FindFirstChild("SquiddleAttack") then
+    event.SquiddleAttack:Destroy()
+    print("SquiddleAttack event has been removed.")
+else
+    print("SquiddleAttack event not found.")
+end
+    end,
+})
+
+ -- bypass angry shark damage bro im replacign all button by toggle if it dont work i want to kill myself
+
+
+ RightGroupbox:AddToggle('MyToggle', {
+    Text = 'shark damage',
+    Default = false, -- Default value (true / false)
+    Tooltip = 'bypass angry shark damage', -- Information shown when you hover over the toggle
+
+    Callback = function(xOMGNOWAYIPUTTEDXASAFUNCTION)
+        local RunService = game:GetService("RunService")
+local modelName = "Eyefestation"
+
+-- Function to recursively search and delete the model
+local function deleteModelInFolder(folder, modelName)
+    for _, descendant in ipairs(folder:GetDescendants()) do
+        if descendant:IsA("Model") and descendant.Name == modelName then
+            descendant:Destroy()
+            print(modelName .. " has been deleted.")
+            return true -- Exit the function once the model is found and deleted
+        end
+    end
+    return false
+end
+
+-- Function to check for the model every 2.5 seconds
+local function checkForModel()
+    local success = deleteModelInFolder(workspace, modelName)
+    if not success then
+        print(modelName .. " not found, no shit there is no shark.")
+    end
+end
+
+-- Run the check function every 2 seconds
+while xOMGNOWAYIPUTTEDXASAFUNCTION do
+    checkForModel()
+    wait(2)
+end
+    end
+})
+
+
+RightGroupbox:AddToggle('MyToggle', {
+    Text = 'remove smoke damage',
+    Default = false, -- Default value (true / false)
+    Tooltip = 'This is a tooltip', -- Information shown when you hover over the toggle
+
+    Callback = function(x)
+        local Rooms = game.Workspace:WaitForChild("Rooms")
+
+while x do
+    for _, room in pairs(Rooms:GetDescendants()) do
+        if room:IsA("Folder") and room.Name == "DamageParts" then
+            room:Destroy()
+            
+        end
+    end
+    wait(1)
+end
+
+    end
+})
+        
+
+
+
+RightGroupbox:AddToggle('MyToggle', {
+    Text = 'remove mosnterlocker',
+    Default = false, -- Default value (true / false)
+    Tooltip = 'remove monsterlocker', -- Information shown when you hover over the toggle
+
+    Callback = function(idkificanmakethesamefunctionfor2differenttogglefortrueorfalse)
+        local Rooms = game.Workspace:WaitForChild("Rooms")
+
+while idkificanmakethesamefunctionfor2differenttogglefortrueorfalse do
+    for _, descendant in pairs(Rooms:GetDescendants()) do
+        
+        if descendant:IsA("Model") and descendant.Name == "MonsterLocker" then
+            descendant:Destroy()
+           
+        end
+    end
+    wait(3)
+end
+
+    end
+})
+
+--boost fps OMG IT WAS SO EASY I COMPLICATED MY LIFE FOR THIS i think im stating to get crazy
+local fpsmenue = Tabs['Boost FPS']:AddLeftGroupbox('boost fps BETA')
+
+
+fpsmenue:AddSlider('MySlider', {
+    Text = 'room delete distance',
+    Default = 400,
+    Min = 250,
+    Max = 999,
+    Rounding = 0,
+    Compact = false,
+
+    Callback = function(gaynigpa)
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+while wait(3) do
+    for _, room in ipairs(workspace.Rooms:GetChildren()) do
+        local normalDoor = room:FindFirstChild("NormalDoor", true)
+        if normalDoor then
+            local distance = (normalDoor.Position - humanoidRootPart.Position).Magnitude
+            if distance > gaynigpa then
+                room:Destroy()
+                print("a room has been destroyed")
+            end
+        end
+    end
+end
+    end
+})
+
+
+
+local dupe = Tabs['Item Give']:AddLeftGroupbox('dupeitems')
+
+local MyButton = dupe:AddButton({
+    Text = 'dupe keycard',
+    Func = function()
+        print('You clicked a button!')
+    end,
+    DoubleClick = false,
+    Tooltip = 'you know'
+})
+
+local MyButton = dupe:AddButton({
+    Text = 'dupe codebreacher',
+    Func = function()
+        print('You clicked a button!')
+    end,
+    DoubleClick = false,
+    Tooltip = 'you know'
+})
+
+
+
+
+-- ui settings
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+
+-- I set NoUI so it does not show up in the keybinds menu
+MenuGroup:AddButton('Unload', function() Library:Unload() end)
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
+
+Library.ToggleKeybind = Options.MenuKeybind -- Allows you to have a custom keybind for the menu
+
+-- Addons:
+-- SaveManager (Allows you to have a configuration system)
+-- ThemeManager (Allows you to have a menu theme system)
+
+-- Hand the library over to our managers
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
+
+-- Ignore keys that are used by ThemeManager.
+-- (we dont want configs to save themes, do we?)
+SaveManager:IgnoreThemeSettings()
+
+-- Adds our MenuKeybind to the ignore list
+-- (do you want each config to have a different menu key? probably not.)
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
+
+-- use case for doing it this way:
+-- a script hub could have themes in a global folder
+-- and game configs in a separate folder per game
+ThemeManager:SetFolder('MyScriptHub')
+SaveManager:SetFolder('MyScriptHub/specific-game')
+
+-- Builds our config menu on the right side of our tab
+SaveManager:BuildConfigSection(Tabs['UI Settings'])
+
+-- Builds our theme menu (with plenty of built in themes) on the left side
+-- NOTE: you can also call ThemeManager:ApplyToGroupbox to add it to a specific groupbox
+ThemeManager:ApplyToTab(Tabs['UI Settings'])
+
+-- You can use the SaveManager:LoadAutoloadConfig() to load a config
+-- which has been marked to be one that auto loads!
+SaveManager:LoadAutoloadConfig()
