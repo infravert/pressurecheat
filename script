@@ -1,4 +1,4 @@
---loadstring is loadstring(game:HttpGet("https://pastebin.com/raw/FWQLbn7w"))()
+--loadstring is loadstring(game:HttpGet("https://raw.githubusercontent.com/infravert/pressurecheat/main/script"))()
 
 
 local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
