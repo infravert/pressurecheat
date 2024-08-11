@@ -579,15 +579,10 @@ local function handleProximityPrompt(prompt, playerPosition)
                     return -- Skip further processing for this prompt
                 end
 
-                -- Condition 2: Parent is named "HighLight" and its parent is named "Drawer"
+                -- Condition 2: Parent is named "HighLight" and its parent is named "Drawer" disable
                 local grandparent = parent.Parent
                 if parent.Name == "HighLight" and grandparent and grandparent.Name == "Drawer" then
-                    local openValue = grandparent:FindFirstChild("OpenValue")
-                    if openValue then
-                        -- Disable the ProximityPrompt regardless of OpenValue
-                        prompt.Enabled = false
-                        fireProximityPrompt(prompt)
-                    end
+                    prompt.Enabled = false
                 end
             end
         end
@@ -881,6 +876,39 @@ end
     end
 })
         
+RightGroupbox:AddToggle('MyToggle', {
+    Text = 'remove smoke better?',
+    Default = false, -- Default value (true / false)
+    Tooltip = 'could not test this cuz my game didnt want to give me room with steam leak', -- Information shown when you hover over the toggle
+
+    Callback = function(x)
+        local Rooms = game:GetService("Workspace").Rooms
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ZoneChange = ReplicatedStorage:WaitForChild("Events"):WaitForChild("ZoneChange")
+
+-- Function to clean up DamageParts
+local function cleanUp()
+    print("CleanUp function triggered")
+    for _, room in ipairs(Rooms:GetDescendants()) do
+        if room:IsA("Model") then
+            local damageParts = room:FindFirstChild("DamageParts", true)
+            if damageParts and damageParts:IsA("Folder") then
+                damageParts:Destroy()
+                print("Deleted DamageParts in room:", room.Name)
+            end
+        end
+    end
+end
+
+-- Connect the cleanup function to the remote event with a delay
+ZoneChange.OnClientEvent:Connect(function()
+    delay(0.1, cleanUp) -- Schedule cleanup after a 0.1-second delay
+end)
+
+
+    end
+})
+
 
 
 
