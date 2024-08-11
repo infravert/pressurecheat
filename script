@@ -913,8 +913,8 @@ local fpsmenue = Tabs['Boost FPS']:AddLeftGroupbox('boost fps BETA')
 fpsmenue:AddSlider('MySlider', {
     Text = 'room delete distance',
     Default = 400,
-    Min = 250,
-    Max = 999,
+    Min = 400,
+    Max = 1000,
     Rounding = 0,
     Compact = false,
 
